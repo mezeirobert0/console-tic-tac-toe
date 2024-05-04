@@ -24,5 +24,7 @@ internal class Program
         State state1 = new State();
         nextMove = state1.Minimax();
         Console.WriteLine("{0}, {1}", nextMove.I, nextMove.J);
+
+        state.DisplayBoard();
     }
 }

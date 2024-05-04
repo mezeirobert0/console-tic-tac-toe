@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace console_tic_tac_toe
+﻿namespace console_tic_tac_toe
 {
     enum Result { X, O, draw, none}
     internal class State
@@ -142,21 +140,18 @@ namespace console_tic_tac_toe
 
         public void DisplayBoard()
         {
-            for (short i = 0; i < 3; i++)
-            {
-                for (short j = 0; j < 3; j++)
-                {
-                    if (board[i, j] == '\0')
-                        Console.Write("  ");
-                    else
-                        Console.Write("{0} ", board[i, j]);
-                }
-                Console.WriteLine();
-            }
-            Console.WriteLine();
+            Console.WriteLine("     |     |      ");
+            Console.WriteLine("  {0}  |  {1}  |  {2}", board[0, 0] == '\0' ? '1' : board[0, 0], board[0, 1] == '\0' ? '2' : board[0, 1], board[0, 2] == '\0' ? '3' : board[0, 2]);
+            Console.WriteLine("_____|_____|_____ ");
+            Console.WriteLine("     |     |      ");
+            Console.WriteLine("  {0}  |  {1}  |  {2}", board[1, 0] == '\0' ? '4' : board[1, 0], board[1, 1] == '\0' ? '5' : board[1, 1], board[1, 2] == '\0' ? '6' : board[1, 2]);
+            Console.WriteLine("_____|_____|_____ ");
+            Console.WriteLine("     |     |      ");
+            Console.WriteLine("  {0}  |  {1}  |  {2}", board[2, 0] == '\0' ? '7' : board[2, 0], board[2, 1] == '\0' ? '8' : board[2, 1], board[2, 2] == '\0' ? '9' : board[2, 2]);
+            Console.WriteLine("     |     |      ");
         }
 
-        public Move[] GetEmptyCells()
+        private Move[] GetEmptyCells()
         {
             Move[] emptyCells = new Move[9-depth];
             short n = 0;
@@ -168,8 +163,6 @@ namespace console_tic_tac_toe
 
             return emptyCells;
         }
-
-
 
         // minimax function for determining the current state's score and the next best move
         public Move Minimax()

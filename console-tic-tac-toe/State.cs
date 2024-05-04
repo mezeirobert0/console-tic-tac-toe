@@ -9,7 +9,7 @@
         private short depth;
         private short value;
 
-        public short Value
+        private short Value
         {
             get { return value; }
         }
@@ -19,9 +19,9 @@
             get { return turn; }
         }
 
-        public short Depth
-        {
-            get { return depth; }
+        public Result Result 
+        { 
+            get { return result; } 
         }
 
         public State(State? old = null, Move? move = null) 

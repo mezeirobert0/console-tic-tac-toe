@@ -49,6 +49,7 @@
                 depth = old.depth;
             }
 
+            // making a move
             if (move != null)
             {
                 if (depth == 9)
@@ -58,6 +59,8 @@
                     throw new InvalidOperationException("The spot is occupied!");
 
                 board[move.I, move.J] = turn;
+
+                // increasing the depth (aka the total number of moves)
                 depth++;
 
                 // checking if a player has won or if it's a draw
@@ -68,7 +71,10 @@
                     // first row
                     if (board[0, 0] == board[0, 1] && board[0, 1] == board[0, 2] && board[0, 0] != '\0')
                     {
+                        // the value of the state should be 1 if X has won, -1 if O has won
                         value = (short)(turn == 'X' ? 1 : -1);
+
+                        // assigning the result
                         result = turn == 'X' ? Result.X : Result.O;
                     }
 
@@ -129,7 +135,7 @@
                         else
                         {
                             result = Result.draw; // it's a draw
-                            value = 0; // the value is 0 in case of a draw
+                            value = 0; // the value of the state is 0 in case of a draw
                         }
                     }
                 }
@@ -167,6 +173,7 @@
         // minimax function for determining the current state's score and the next best move
         public Move Minimax()
         {
+            // initializing the next best move
             Move nextMove = new Move(-1, -1);
             
             // if the state is a terminal one (win or draw) we already know its value
@@ -175,17 +182,23 @@
 
             if (turn == 'X')
             {
+                // initializing the value of the current state (could very well be -1)
                 value = -10000;
+
+                // getting the next possible moves from the current state
                 Move[] possibleMoves = GetEmptyCells();
 
                 foreach (Move possibleMove in possibleMoves) 
                 {
+                    // appllying the move to the current state, in another State instance
                     State nextState = new State(this, possibleMove);
+
+                    // recursive call
                     nextState.Minimax();
 
-                    // value = Math.Max(value, nextState.value);
                     if (nextState.value > value)
                     {
+                        // we have a new best value and a new next best move
                         value = nextState.value;
                         nextMove.I = possibleMove.I;
                         nextMove.J = possibleMove.J;
@@ -195,17 +208,23 @@
 
             if (turn == 'O')
             {
+                // initializing the value of the current state (could very well be 1)
                 value = 10000;
+
+                // getting the next possible moves from the current state
                 Move[] possibleMoves = GetEmptyCells();
 
                 foreach (Move possibleMove in possibleMoves)
                 {
+                    // appllying the move to the current state, in another State instance
                     State nextState = new State(this, possibleMove);
+
+                    // recursive call
                     nextState.Minimax();
 
-                    // value = Math.Max(value, nextState.value);
                     if (nextState.value < value)
                     {
+                        // we have a new best value and a new next best move
                         value = nextState.value;
                         nextMove.I = possibleMove.I;
                         nextMove.J = possibleMove.J;

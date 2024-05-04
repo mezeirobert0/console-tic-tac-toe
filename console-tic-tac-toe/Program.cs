@@ -14,16 +14,15 @@ internal class Program
         state = new State(state, new Move(0, 2)); Console.WriteLine("{0}, {1}", state.Turn, state.Depth);
         Console.WriteLine();
 
-        var possibleMoves = state.getEmptyCells();
-        foreach (var possibleMove in possibleMoves)
-        {
-                Console.Write(possibleMove.I);
-                Console.Write(' ');
-                Console.Write(possibleMove.J);
-                Console.Write('\n');
-        }
+        Move nextMove = state.Minimax();
 
-        state.Minimax();
+        Console.WriteLine("{0}, {1}", nextMove.I, nextMove.J);
+
         Console.WriteLine(state.Value);
+        Console.WriteLine();
+
+        State state1 = new State();
+        nextMove = state1.Minimax();
+        Console.WriteLine("{0}, {1}", nextMove.I, nextMove.J);
     }
 }

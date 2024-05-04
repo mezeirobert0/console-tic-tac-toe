@@ -56,10 +56,14 @@ namespace console_tic_tac_toe
                 if (depth == 9)
                     throw new InvalidOperationException("The board is already full!");
                 
+                if (board[move.I, move.J] != '\0')
+                    throw new InvalidOperationException("The spot is occupied!");
+
                 board[move.I, move.J] = turn;
                 depth++;
 
-                // checking if a player has won
+                // checking if a player has won or if it's a draw
+
                 // a player can win only if at least 5 moves have been made
                 if (depth >= 5)
                 {
@@ -105,24 +109,54 @@ namespace console_tic_tac_toe
                         result = turn == 'X' ? Result.X : Result.O;
                     }
 
+                    // first diagonal
+                    else if (board[0, 0] == board[1, 1] && board[1, 1] == board[2, 2] && board[0, 0] != '\0')
+                    {
+                        value = (short)(turn == 'X' ? 1 : -1);
+                        result = turn == 'X' ? Result.X : Result.O;
+                    }
+
+                    // second diagonal
+                    else if (board[0, 2] == board[1, 1] && board[1, 1] == board[2, 0] && board[0, 2] != '\0')
+                    {
+                        value = (short)(turn == 'X' ? 1 : -1);
+                        result = turn == 'X' ? Result.X : Result.O;
+                    }
+
                     else
                     {
-                        if (depth < 9)
-                            result = Result.none;
+                        if (depth < 9) 
+                            result = Result.none; // the game is still on
 
                         else
                         {
-                            result = Result.draw;
-                            value = 0;
+                            result = Result.draw; // it's a draw
+                            value = 0; // the value is 0 in case of a draw
                         }
                     }
                 }
 
-                turn = turn == 'X' ? 'O' : 'X';  
+                turn = turn == 'X' ? 'O' : 'X'; // changing the turn
             }
         }
 
-        public Move[] getEmptyCells()
+        public void DisplayBoard()
+        {
+            for (short i = 0; i < 3; i++)
+            {
+                for (short j = 0; j < 3; j++)
+                {
+                    if (board[i, j] == '\0')
+                        Console.Write("  ");
+                    else
+                        Console.Write("{0} ", board[i, j]);
+                }
+                Console.WriteLine();
+            }
+            Console.WriteLine();
+        }
+
+        public Move[] GetEmptyCells()
         {
             Move[] emptyCells = new Move[9-depth];
             short n = 0;
@@ -135,42 +169,58 @@ namespace console_tic_tac_toe
             return emptyCells;
         }
 
-        // minimax function for determining the current state's score (next best move)
-        public void Minimax()
+
+
+        // minimax function for determining the current state's score and the next best move
+        public Move Minimax()
         {
+            Move nextMove = new Move(-1, -1);
+            
             // if the state is a terminal one (win or draw) we already know its value
             if (result != Result.none)
-                return;
+                return nextMove;
 
             if (turn == 'X')
             {
-                value = -1;
-                Move[] possibleMoves = getEmptyCells();
+                value = -10000;
+                Move[] possibleMoves = GetEmptyCells();
 
-                for (short i = 0; i < possibleMoves.Length; i++) 
+                foreach (Move possibleMove in possibleMoves) 
                 {
-                    State nextState = new State(this, possibleMoves[i]);
+                    State nextState = new State(this, possibleMove);
                     nextState.Minimax();
-                    value = Math.Max(value, nextState.value);
-                }
 
-                return;
+                    // value = Math.Max(value, nextState.value);
+                    if (nextState.value > value)
+                    {
+                        value = nextState.value;
+                        nextMove.I = possibleMove.I;
+                        nextMove.J = possibleMove.J;
+                    }
+                }
             }
 
             if (turn == 'O')
             {
-                value = 1;
-                Move[] possibleMoves = getEmptyCells();
+                value = 10000;
+                Move[] possibleMoves = GetEmptyCells();
 
-                for (short i = 0; i < possibleMoves.Length; i++)
+                foreach (Move possibleMove in possibleMoves)
                 {
-                    State nextState = new State(this, possibleMoves[i]);
+                    State nextState = new State(this, possibleMove);
                     nextState.Minimax();
-                    value = Math.Min(value, nextState.value);
-                }
 
-                return;
+                    // value = Math.Max(value, nextState.value);
+                    if (nextState.value < value)
+                    {
+                        value = nextState.value;
+                        nextMove.I = possibleMove.I;
+                        nextMove.J = possibleMove.J;
+                    }
+                }
             }
+
+            return nextMove;
         }
     }
 }

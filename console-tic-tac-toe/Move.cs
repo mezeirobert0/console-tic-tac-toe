@@ -13,14 +13,23 @@ namespace console_tic_tac_toe
             this.j = j;
         }
 
+        // copy constructor
+        public Move(Move move)
+        {
+            i = move.i;
+            j = move.j;
+        }
+
         public short I
         {
             get { return i; }
+            set { i = value; }
         }
             
         public short J
         {
             get { return j; }
+            set { j = value; }
         }
     }
 }

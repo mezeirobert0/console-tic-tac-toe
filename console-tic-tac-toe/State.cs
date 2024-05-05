@@ -187,6 +187,10 @@
 
                 // getting the next possible moves from the current state
                 Move[] possibleMoves = GetEmptyCells();
+                
+                // shuffling the possibleMoves array, so that the bot doesn't always make the same moves
+                var rng = new Random();
+                Helper.ShuffleMoves(rng, possibleMoves);
 
                 foreach (Move possibleMove in possibleMoves) 
                 {
@@ -213,6 +217,10 @@
 
                 // getting the next possible moves from the current state
                 Move[] possibleMoves = GetEmptyCells();
+
+                // shuffling the possibleMoves array, so that the bot doesn't always make the same moves
+                var rng = new Random();
+                Helper.ShuffleMoves(rng, possibleMoves);
 
                 foreach (Move possibleMove in possibleMoves)
                 {

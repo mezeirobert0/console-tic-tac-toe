@@ -21,7 +21,7 @@
             // the player must input a symbol until a valid one (X or O) is inputted
             while (playerSymbol != "X" && playerSymbol != "O")
             {
-                Console.WriteLine("Invalid input! Enter X or O and hit enter.");
+                Console.Write("Invalid input! Enter X or O and hit enter: ");
 
                 playerSymbol = Console.ReadLine();
             }

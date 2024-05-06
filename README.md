@@ -75,7 +75,7 @@ It's also worth mentioning that the bot's moves are delayed by 1250 ms.
 
 After the bot wins (It's virtually impossible for the user to win) or all the spots have been occupied and it's a tie, the final state of the game is printed to the console:
 ```
-O wins!
+Bot wins!
 ```
 ```
 It's a draw!

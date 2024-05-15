@@ -89,8 +89,11 @@
                             break;
                     }
 
+                    if (digit.Length != 1)
+                        Console.WriteLine("Invalid input!");
+
                     // the player must input a string until a string with a single digit 1-9 is inputted
-                    while (digit[0] < '1' || digit[0] > '9')
+                    while (digit[0] < '1' || digit[0] > '9' || digit.Length != 1)
                     {
                         Console.Write("Enter a digit 1-9 from the table: ");
                         digit = Console.ReadLine();
